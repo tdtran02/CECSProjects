@@ -8,14 +8,15 @@ import javax.swing.ImageIcon;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.io.*;
+import java.util.Random;
 
 
 public class GameBoard extends JFrame{
 	private ImageIcon image;
 	private JLabel label;
-	private JLabel name1;
-	private JLabel name2;
-	private JLabel human;
+	private Player name1;
+	private Player name2;
+	private Player human;
 	private JPanel panel1;
 	private JPanel panel2;
 	private JScrollPane scroll1;
@@ -27,6 +28,7 @@ public class GameBoard extends JFrame{
 	private JButton button1;
 	private JButton button2;
 	private JButton button3;
+	private Room mapList;
 	
 	public GameBoard() {
 		
@@ -36,9 +38,9 @@ public class GameBoard extends JFrame{
 	
 	private void boardComponent() {
 	    label = new JLabel();
-	    name1 = new JLabel();
-	    name2 = new JLabel();
-	    human = new JLabel();
+	    name1 = new Player();
+	    name2 = new Player();
+	    human = new Player();
 	    panel1 = new JPanel();
 	    panel2 = new JPanel();
 		scroll1 = new JScrollPane();
@@ -51,28 +53,41 @@ public class GameBoard extends JFrame{
 	    textField = new JTextField();
 	    textArea = new JTextArea();
 	       
+	    Random rand = new Random();
+		int number = rand.nextInt(3);
+		System.out.println(number);
+		if (number == 0)
+		{
+			name1.setPlayer(number + 1);
+		    name2.setPlayer(number + 2);
+		    human.setPlayer(number);
+		}
+		else if(number == 1)
+		{
+			name1.setPlayer(number - 1);
+		    name2.setPlayer(number + 1);
+		    human.setPlayer(number);
+		}
+		else
+		{
+			name1.setPlayer(number - 1);
+		    name2.setPlayer(number - 2);
+		    human.setPlayer(number);
+		}
+	    
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    setResizable(false);
 
 	    scroll1.setPreferredSize(new Dimension(1900, 1500));
 	    
-	    name1.setForeground(new java.awt.Color(255, 51, 0));
-	    name1.setFont(new Font("Tahoma", 1, 27)); //(font = tahoma, 1 = bold, size = 27)
-        name1.setText("Matt");
-        label.add(name1);
-        name1.setBounds(1000, 1000, 100, 50); //(location x, location y, width, height)
+        label.add(name1.getPlayer());
+        name1.getPlayer().setBounds(1000, 1000, 100, 50); //(location x, location y, width, height)
         
-        name2.setForeground(new java.awt.Color(255, 51, 0));
-        name2.setFont(new Font("Tahoma", 1, 27));
-        name2.setText("Sophia");
-        label.add(name2);
-        name2.setBounds(1000, 1040, 100, 50);//(location x, location y, width, height)
+        label.add(name2.getPlayer());
+        name2.getPlayer().setBounds(1000, 1040, 100, 50);//(location x, location y, width, height)
         
-        human.setForeground(new java.awt.Color(255, 51, 0));
-        human.setFont(new Font("Tahoma", 1, 27));
-        human.setText("Steve");
-        label.add(human);
-        human.setBounds(1000, 1080, 100, 50); //(location x, location y, width, height)
+        label.add(human.getPlayer());
+        human.getPlayer().setBounds(1000, 1080, 100, 50); //(location x, location y, width, height)
 	    
 	    label.setBounds(20, 30, 2000, 1500);
 	    label.setMaximumSize(new Dimension(1900, 1500));
@@ -114,13 +129,10 @@ public class GameBoard extends JFrame{
 
 	    textField.setText("TextField");
 	    
-	    list.setModel(new AbstractListModel<String>() {
-	    String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-	    public int getSize() { return strings.length; }
-	    public String getElementAt(int i) { return strings[i]; }
-	    });
-	    scroll2.setViewportView(list);
-
+	    mapList = new Room();
+    	mapList.addList("pathways.txt");
+    	updateList(mapList, 0);
+	   
 	    textArea.setColumns(20);
 	    textArea.setRows(5);
 	    scroll3.setViewportView(textArea);
@@ -199,10 +211,31 @@ public class GameBoard extends JFrame{
 	 
 	 private void jButton2ActionPerformed(ActionEvent evt) {                                         
 	        // TODO add your handling code here:
+		 if (list.getSelectedValue() != null) {
+			 //human.setLocation(human.getX(), human.getY() - 150);
+			 System.out.print(list.getSelectedValue());
+			 int labelAt = mapList.compareMap((String)list.getSelectedValue());
+			 updateList(mapList, labelAt);
+		 }
 	    }  
 	
 	 private void jButton3ActionPerformed(ActionEvent evt) {                                         
 	        // TODO add your handling code here:
 	    }  
+	 
+	 private void updateList(Room mapList, int index) {
+		 String[] in = mapList.getList(index).split("\\|+");
+	 	    String[] strings = new String[in.length];
+	 	    
+	 	    for (int i = 1; i < in.length; i++) {
+	 	    	strings[i - 1] = in[i];
+	 	    }
+		    list.setModel(new AbstractListModel<String>() {
+		    
+		    public int getSize(){return strings.length;}
+		    public String getElementAt(int i) {return strings[i];}
+		    });
+		    scroll2.setViewportView(list);
+	 }
 
 }
