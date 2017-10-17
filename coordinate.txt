@@ -1,0 +1,21 @@
+George Allen Field,42,70
+Japanese Garden,530,14
+Pyramid,502,202
+Student Parking,1154,25
+Forbidden Parking,1262,393
+Rec Center,535,420
+West Walkway,15,545
+Computer Lab,206,661
+ECS 302,727,661
+Eat Club,1234,661
+CECS Conference Room,1498,661
+North Hall,217,867
+South Hall,1004,865
+Room Of Retirement,221,1010
+Elevators,726,1010
+Lactation Lounge,1457,1010
+East Walkway,1788,735
+Library,25,1300
+LA 5,570,1300
+Bratwurst Hall,1225,1300
+ECS 308,1000,1000

@@ -3,13 +3,13 @@ Elevators|North Hall|LA 5
 Lactation Lounge|South Hall
 Room Of Retirement|North Hall
 North Hall|Computer Lab|Room Of Retirement|South Hall|Elevators|ECS 302|West Walkway
-South Hall|ECS 302|ECS 308|North Hall|Eat Club|CECS Conference Room|East Walkway
+South Hall|ECS 302|ECS 308|North Hall|Eat Club|CECS Conference Room|East Walkway|Lactation Lounge
 Computer Lab|North Hall
 ECS 302|North Hall|South Hall
 Eat Club|South Hall
 CECS Conference Room|South Hall
-George Allen Field|Japanese Garden|Pyramid|West Walkway
-Japanese Garden|George Allen Field|Student Parking
+George Allen Field|Japanese Garden|Pyramid|West Walkway|Rec Center
+Japanese Garden|George Allen Field|Student Parking|Pyramid
 Student Parking|Japanese Garden|Pyramid|Forbidden Parking|Rec Center
 Pyramid|George Allen Field|Japanese Garden|Rec Center|Student Parking
 Rec Center|Pyramid|Forbidden Parking|West Walkway|Student Parking

@@ -23,7 +23,9 @@ public class GameBoard extends JFrame{
 	private JScrollPane scroll2;
 	private JScrollPane scroll3;
 	private JTextField textField;
-	private JList list;
+	private JList list1;
+	private JList list2;
+	private JList humanList;
 	private JTextArea textArea;
 	private JButton button1;
 	private JButton button2;
@@ -49,7 +51,9 @@ public class GameBoard extends JFrame{
 	    button1 = new JButton();
 	    button2 = new JButton();
 	    button3 = new JButton();
-	    list = new JList<>();
+	    list1 = new JList<>();
+	    list2 = new JList<>();
+	    humanList = new JList<>();
 	    textField = new JTextField();
 	    textArea = new JTextArea();
 	       
@@ -131,7 +135,11 @@ public class GameBoard extends JFrame{
 	    
 	    mapList = new Room();
     	mapList.addList("pathways.txt");
-    	updateList(mapList, 0);
+    	updateList(mapList, 0, humanList);
+    	updateList(mapList, 0, list1);
+    	updateList(mapList, 0, list2);
+    	scroll2.setViewportView(humanList);
+    	
 	   
 	    textArea.setColumns(20);
 	    textArea.setRows(5);
@@ -211,31 +219,48 @@ public class GameBoard extends JFrame{
 	 
 	 private void jButton2ActionPerformed(ActionEvent evt) {                                         
 	        // TODO add your handling code here:
-		 if (list.getSelectedValue() != null) {
+		 if (humanList.getSelectedValue() != null) {
 			 //human.setLocation(human.getX(), human.getY() - 150);
-			 System.out.print(list.getSelectedValue());
-			 int labelAt = mapList.compareMap((String)list.getSelectedValue());
-			 updateList(mapList, labelAt);
+			 //System.out.print(list.getSelectedValue());
+			 String humanRoom = (String)humanList.getSelectedValue();
+			 int labelAt = mapList.compareMap(humanRoom);
+			 human.movePlayer(humanRoom, 80);
+			 updateList(mapList, labelAt, humanList);
+			 scroll2.setViewportView(humanList);
 		 }
 	    }  
 	
 	 private void jButton3ActionPerformed(ActionEvent evt) {                                         
 	        // TODO add your handling code here:
+		 Random rand1 = new Random();
+		 int number1 = rand1.nextInt(list1.getModel().getSize()-1);
+		 String comp1Room = ((String)list1.getModel().getElementAt(number1));
+		 int comp1At = mapList.compareMap(comp1Room);
+		 name1.movePlayer(comp1Room, 0);
+		 updateList(mapList, comp1At, list1);
+		 
+		 Random rand2 = new Random();
+		 int number2 = rand2.nextInt(list2.getModel().getSize()-1);
+		 String comp2Room = ((String)list2.getModel().getElementAt(number2));
+		 int comp2At = mapList.compareMap(comp2Room);
+		 name2.movePlayer(comp2Room, 40);
+		 updateList(mapList, comp2At, list2);
+		 
 	    }  
 	 
-	 private void updateList(Room mapList, int index) {
+	 private void updateList(Room mapList, int index, JList usrList) {
 		 String[] in = mapList.getList(index).split("\\|+");
 	 	    String[] strings = new String[in.length];
 	 	    
 	 	    for (int i = 1; i < in.length; i++) {
 	 	    	strings[i - 1] = in[i];
 	 	    }
-		    list.setModel(new AbstractListModel<String>() {
+		    usrList.setModel(new AbstractListModel<String>() {
 		    
 		    public int getSize(){return strings.length;}
 		    public String getElementAt(int i) {return strings[i];}
 		    });
-		    scroll2.setViewportView(list);
+		    
 	 }
 
 }
